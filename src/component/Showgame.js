@@ -7,6 +7,7 @@ class Showgame extends React.Component{
     constructor(props){
         super(props)
             this.state={
+               
                 max:this.props.newxclick,
                 users:this.props.users,
                 temparray:[
@@ -51,42 +52,59 @@ class Showgame extends React.Component{
     //               alert(err)
     //             })     
     //      }
-
-         componentDidUpdate(previosprop){
-            // console.log(previostate.newxclick,this.props.newxclick)
-            // alert("pereviosprops"+previosprop.users)
-            // alert("this.state.users"+this.props.users)
+        componentWillUnmount(){
+            this.unsub()
+        }
+      
+        componentDidUpdate(previosprop){
+      
             if(previosprop.users!==this.props.users){
                 console.log("showgame:"+this.props.users)
-                    // this.setState({max:this.props.newxclick})
-                    firestore.collection("game").where("users","==",this.props.users).get()
-                .then((doc)=>{
-                    let temparraynew=[]
-                                doc.forEach(doc=>
-                                    {
-                                        
-                                        console.log(doc.id)
-                                        console.log(doc.data())
-                                        this.setState()
-                               
-                                        console.log(doc.data().gameid)
-                                        console.log(doc.data().orderid)
-                                        console.log(doc.data().statusnumber)
-                                        // temparraynew +=1
-                                        temparraynew=[...temparraynew,{userid:doc.data().users,gameid:doc.data().gameid,statusnumber:doc.data().statusnumber,xpoint:doc.data().xpoint,ypoint:doc.data().ypointdoc,timegame:doc.data().timegame}]
-                                        this.setState({temparray:temparraynew})
-                                         
-                                      
-                                    })
-    
-                             }   
-                      )
-              .catch((err)=>
-                    {
-                      alert(err)
-                    })     
-            }
+
+                    this.unsub= firestore.collection("game").where("users","==",this.props.users).onSnapshot(
+                        
+                                (doc)=>{
+                                    doc.docChanges().forEach((change) => {
+                                                    if (change.type === "added") {
+                                                        console.log("New city: ", change.doc.data());
+                                                    }
+                                                    if (change.type === "modified") {
+                                                        console.log("Modified city: ", change.doc.data());
+                                                    }
+                                                    if (change.type === "removed") {
+                                                        console.log("Removed city: ", change.doc.data());
+                                                    }
+
+                                                })
+                                                
+                                    let temparraynew=[]
+                                                                doc.forEach(doc=>
+                                                                    {
+                                                                        
+                                                                        console.log(doc.id)
+                                                                        console.log(doc.data())
+                                                                        this.setState()
+                                                            
+                                                                        console.log(doc.data().gameid)
+                                                                        console.log(doc.data().orderid)
+                                                                        console.log(doc.data().statusnumber)
+                                                                        // temparraynew +=1
+                                                                        temparraynew=[...temparraynew,{userid:doc.data().users,gameid:doc.data().gameid,statusnumber:doc.data().statusnumber,xpoint:doc.data().xpoint,ypoint:doc.data().ypointdoc,timegame:doc.data().timegame}]
+                                                                        this.setState({temparray:temparraynew})
+                                                                        alert(doc.data().isend)
+                                                                    
+                                                                    })
+                    
+                                            }   
+                                  
+                            ,(err)=>
+                                {
+                                    alert(err)
+                                }
+                   )    
+            
         }
+    }
          Fetchlistgame=()=>
          {
 
@@ -181,3 +199,36 @@ class Showgame extends React.Component{
 }
 
 export default Showgame
+  //  componentDidUpdate(previosprop){
+      
+        //     if(previosprop.users!==this.props.users){
+        //         console.log("showgame:"+this.props.users)
+
+        //             firestore.collection("game").where("users","==",this.props.users).get()
+        //         .then((doc)=>{
+        //             let temparraynew=[]
+        //                         doc.forEach(doc=>
+        //                             {
+                                        
+        //                                 console.log(doc.id)
+        //                                 console.log(doc.data())
+        //                                 this.setState()
+                               
+        //                                 console.log(doc.data().gameid)
+        //                                 console.log(doc.data().orderid)
+        //                                 console.log(doc.data().statusnumber)
+        //                                 // temparraynew +=1
+        //                                 temparraynew=[...temparraynew,{userid:doc.data().users,gameid:doc.data().gameid,statusnumber:doc.data().statusnumber,xpoint:doc.data().xpoint,ypoint:doc.data().ypointdoc,timegame:doc.data().timegame}]
+        //                                 this.setState({temparray:temparraynew})
+                                         
+                                      
+        //                             })
+    
+        //                      }   
+        //               )
+        //       .catch((err)=>
+        //             {
+        //               alert(err)
+        //             })     
+        //     }
+        // }

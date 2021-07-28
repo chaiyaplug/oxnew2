@@ -34,17 +34,11 @@ class App extends React.Component{
     //  alert(this.state.tempusers)
 
         }
+        
       clickchangeusers=(e)=>
       {
-    
-          
-          // e.preventdefault()
-          // var tempusers =document.getElementById('user').value
-        
           this.setState({users:e.target.value})
-          //  alert(this.state.users)
           var gameid= Math.floor(Math.random() * 1000000)
-          // alert(gameid)
           this.setState({newgameid:gameid})
       }
 
@@ -87,7 +81,9 @@ class App extends React.Component{
             if(this.state.a===this.state.b)   {
               this.setState({x:this.state.a,y:this.state.b,oncheck:false})
               }
-
+              else
+              alert("กรุณาใส่จำนวนช่องแกน X และ Y ให้เท่ากัน")
+              
           }
       Check=()=> 
       {

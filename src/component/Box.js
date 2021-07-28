@@ -144,10 +144,10 @@ class Box extends React.Component{
                                                                          }
                                                                                   if(temparrayboard.length>1){
                                                                                             this.shuffle(temparrayboard)
-                                                                                      newboard[temparrayboard[0].newi][temparrayboard[0].newy]="o"
+                                                                                      newboard[temparrayboard[0].newi][temparrayboard[0].newy]="o" //สลับแล้วใส่ o ลง array ตำแหน่งแรก
                                                                                       this.setState({board:newboard})
                                                                                       this.setState(previousstate=>({xpoint:sIndex,ypoint:index,statusnumber:"o",isend:0,timegame:new Date()}))      
-                                                                                        Insertgame(this.state,this.props.users,this.props.newgameid,sIndex,index,newboard[temparrayboard[0].newi][temparrayboard[0].newy])
+                                                                                        Insertgame(this.state,this.props.users,this.props.newgameid,sIndex,index,newboard[temparrayboard[0].newi][temparrayboard[0].newy]) //บันทึกลง database
                                                                                             }
                                                                                     else 
                                                                                       {
